@@ -25,9 +25,13 @@ useEffect(() => {
   }
   setAnimateButton(true)
 
-  setTimeout(() => {
+  const timer = setTimeout(() => {
     setAnimateButton(false)
   }, 300)
+
+  return () => {
+    clearTimeout(timer);
+  }
 }, [items])
   return (
     <button className={buttonClasses} onClick={props.onClick}>
