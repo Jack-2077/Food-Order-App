@@ -41,6 +41,12 @@ const Cart = props => {
     }
 
 
+    const modalActions = (
+      <div className={classes.actions}>
+      <button className={classes['button--alt']} onClick={props.onCartClose}>Close</button>
+      {hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>}
+      </div>
+    )
   
     return (
         <Modal onCartClose={props.onCartClose}>
@@ -49,11 +55,8 @@ const Cart = props => {
             <span>Total Amount</span>
             <span>{totalAmount}</span>
           </div>
-          <div className={classes.actions}>
-          <button className={classes['button--alt']} onClick={props.onCartClose}>Close</button>
-          {hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>}
-          </div>
-          {isCheckout && <Checkout />}
+          {isCheckout && <Checkout onCancel={props.onCartClose} />}
+          {!isCheckout && modalActions}
           </Modal>
     )
 }
