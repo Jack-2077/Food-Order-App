@@ -1,4 +1,4 @@
-import {useContext} from "react"
+import {useContext, useState} from "react"
 
 import classes from "./Cart.module.css"
 
@@ -6,8 +6,12 @@ import Modal from "../UI/Modal"
 import CartItem from "./CartItem"
 import CartContext from "../../store/cart-context"
 
+import Checkout from "./Checkout"
+
 
 const Cart = props => {
+
+  const [isCheckout, setIsCheckout] = useState(false)
 
   const cartCtx = useContext(CartContext) 
 
@@ -32,6 +36,10 @@ const Cart = props => {
     </ul>
     );
 
+    const orderHandler = () => {
+      setIsCheckout(true);
+    }
+
 
   
     return (
@@ -43,8 +51,9 @@ const Cart = props => {
           </div>
           <div className={classes.actions}>
           <button className={classes['button--alt']} onClick={props.onCartClose}>Close</button>
-          {hasItems && <button className={classes.button}>Order</button>}
+          {hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>}
           </div>
+          {isCheckout && <Checkout />}
           </Modal>
     )
 }
