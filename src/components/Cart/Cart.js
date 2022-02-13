@@ -1,4 +1,4 @@
-import {useContext, useState} from "react"
+import React, {useContext, useState} from "react"
 
 import classes from "./Cart.module.css"
 
@@ -12,6 +12,8 @@ import Checkout from "./Checkout"
 const Cart = props => {
 
   const [isCheckout, setIsCheckout] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmited, setIsSubmited] = useState(false)
 
   const cartCtx = useContext(CartContext) 
 
@@ -25,6 +27,7 @@ const Cart = props => {
   }
 
   const checkoutHandler = (orderItems) => {
+    setIsSubmitting(true);
     const orderDetails = {
       user: orderItems,
       order: cartCtx.items
@@ -43,6 +46,8 @@ const Cart = props => {
       }
     }
     sendOrder();
+    setIsSubmitting(false)
+    setIsSubmited(true);
   }
 
   const cartItems = (
@@ -67,9 +72,9 @@ const Cart = props => {
       {hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>}
       </div>
     )
-  
-    return (
-        <Modal onCartClose={props.onCartClose}>
+
+    const cartModal = (
+      <React.Fragment>
           {cartItems}
           <div className={classes.total}>
             <span>Total Amount</span>
@@ -77,6 +82,14 @@ const Cart = props => {
           </div>
           {isCheckout && <Checkout onCancel={props.onCartClose} onCheckout={checkoutHandler}/>}
           {!isCheckout && modalActions}
+          </React.Fragment>
+    )
+  
+    return (
+      <Modal onCartClose={props.onCartClose}>
+        {!isSubmitting && !isSubmited && cartModal}
+           {isSubmitting && <p>Processing your order</p>}
+          {isSubmited && !isSubmitting && <p>Your order has been placed</p>}
           </Modal>
     )
 }
