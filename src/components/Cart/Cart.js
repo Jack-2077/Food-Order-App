@@ -48,6 +48,7 @@ const Cart = props => {
     sendOrder();
     setIsSubmitting(false)
     setIsSubmited(true);
+    cartCtx.clearCart();
   }
 
   const cartItems = (
@@ -84,12 +85,21 @@ const Cart = props => {
           {!isCheckout && modalActions}
           </React.Fragment>
     )
+
+    const onSubmitText = (
+      <React.Fragment>
+        <p>Your order has been placed</p>
+        <div className={classes.actions}>
+        <button className={classes.button} onClick={props.onCartClose}>Close</button>
+        </div>
+        </React.Fragment>
+    )
   
     return (
       <Modal onCartClose={props.onCartClose}>
         {!isSubmitting && !isSubmited && cartModal}
            {isSubmitting && <p>Processing your order</p>}
-          {isSubmited && !isSubmitting && <p>Your order has been placed</p>}
+          {isSubmited && !isSubmitting && onSubmitText}
           </Modal>
     )
 }
