@@ -7,9 +7,8 @@ const Checkout = (props) => {
 
   const {register, formState: { errors }, handleSubmit} = useForm()
 
-  const onSubmitHandler = (e) => {
-    //e.preventDefault();
-    alert(JSON.stringify(e))
+  const onSubmitHandler = (orderItems) => {
+    props.onCheckout(orderItems);
   }
 
   const isNameValid = errors.name && errors.name?.type === 'required';
@@ -41,7 +40,7 @@ const Checkout = (props) => {
         {isCityValid && "City is required"}
         </div>
         <div className={classes.actions}>
-        <button type="button" onClick={props.onCancel}>cancel</button>
+        <button type="button" onClick={props.onCancel}>Cancel</button>
         <button>Confirm</button>
         </div>
       </form>
