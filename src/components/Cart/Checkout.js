@@ -12,10 +12,10 @@ const Checkout = (props) => {
     alert(JSON.stringify(e))
   }
 
-  const isNameValid = errors.name?.type === 'required';
-  const isStreetValid = errors.street?.type === 'required';
-  const isPostalValid = errors.postal?.type === 'required';
-  const isCityValid = errors.postal?.type === 'required';
+  const isNameValid = errors.name && errors.name?.type === 'required';
+  const isStreetValid = errors.street && errors.street?.type === 'required';
+  const isPostalValid = errors.postal && errors.postal?.type === 'required';
+  const isCityValid = errors.city && errors.city?.type === 'required';
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
@@ -27,17 +27,18 @@ const Checkout = (props) => {
         <div className={`${classes.control} ${!isStreetValid ? '' : classes.invalid }`}>
         <label htmlFor='street'>Street</label>
         <input type="text" {...register("street", { required: true})} id='street' />
-        {errors.street?.type === 'required' && "Street is required"}
+        {isStreetValid && "Street is required"}
         </div>
         <div className={`${classes.control} ${!isPostalValid ? '' : classes.invalid }`}>
         <label htmlFor='postal'>Postal Code</label>
         <input type="text" {...register("postal", { required: true,  maxLength: 6})} id='postal' />
-        {errors.postal?.type === 'required' && "Postal is required"}
+        {isPostalValid && "Postal is required"}
+        {errors.postal?.type === 'maxLength' && "Postal length exceeded"}
         </div>
         <div className={`${classes.control} ${!isCityValid ? '' : classes.invalid }`}>
         <label htmlFor='city'>City</label>
         <input type="text" {...register("city", { required: true})} id='city' />
-        {errors.postal?.type === 'required' && "City is required"}
+        {isCityValid && "City is required"}
         </div>
         <div className={classes.actions}>
         <button type="button" onClick={props.onCancel}>cancel</button>
