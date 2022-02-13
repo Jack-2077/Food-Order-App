@@ -29,11 +29,20 @@ const Cart = props => {
       user: orderItems,
       order: cartCtx.items
     }
-    fetch('https://react-http-e0a9d-default-rtdb.firebaseio.com/orders.json',{
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(orderDetails)
-    })
+      const sendOrder = async () => {
+        const settings = {
+          method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(orderDetails)
+        }
+        try {
+          await fetch('https://react-http-e0a9d-default-rtdb.firebaseio.com/orders.json',settings);
+        }
+      catch (e){
+        return e;
+      }
+    }
+    sendOrder();
   }
 
   const cartItems = (
